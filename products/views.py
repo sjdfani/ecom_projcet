@@ -69,6 +69,9 @@ class CreateProduct(CreateAPIView):
 class ProductList(ListAPIView):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
+    filterset_fields = [
+        'warranty', 'category', 'title', 'description', 'color', 'material'
+    ]
 
 
 class UpdateProduct(RetrieveUpdateDestroyAPIView):
