@@ -33,7 +33,7 @@ class CustomUser(AbstractUser):
     gender = models.CharField(
         max_length=6, choices=Gender.choices, default=Gender.NONE, verbose_name=_('Gender'))
     get_newsletter = models.BooleanField(
-        verbose_name=_('Get the newsletter'), null=True, blank=True)
+        default=False, verbose_name=_('Get the newsletter'), null=True, blank=True)
     created_at = models.DateTimeField(
         auto_now_add=True, verbose_name=_('Created at'))
     updated_at = models.DateTimeField(
