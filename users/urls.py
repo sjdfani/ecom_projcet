@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (
     RegisterUser, RegisterAdminUser, Login, ForgotPassword, VerifyForgotPassword, ConfirmForgotPassword,
-    ChangePassword,
+    ChangePassword, UpdateInformation, UserList, UserUpdateDestroy
 )
 
 app_name = 'users'
@@ -16,4 +16,8 @@ urlpatterns = [
     path('confirm-forgot-password/', ConfirmForgotPassword.as_view(),
          name='confirm-forgot-password'),
     path('change-password/', ChangePassword.as_view(), name='change-password'),
+    path('update-information/<int:pk>/',
+         UpdateInformation.as_view(), name='update-information'),
+    path('list/', UserList.as_view(), name='user-list'),
+    path('list/<int:pk>/', UserUpdateDestroy.as_view(), name='user-information'),
 ]

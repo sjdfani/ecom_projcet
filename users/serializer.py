@@ -142,3 +142,10 @@ class ChangePasswordSerializer(serializers.Serializer):
 
     def save(self, **kwargs):
         self.process(self.validated_data)
+
+
+class UpdateInformationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = (
+            'fullname', 'phone', 'home', 'address', 'gender', 'national_code', 'birthdate', 'get_newsletter')

@@ -1,12 +1,14 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import mixins
 from django.utils import timezone
 from .serializer import (
     RegisterUserSerializer, RegisterAdminUserSerializer, LoginSerializer, CustomUserSerializer,
     ForgotPasswordSerializer, VerifyForgotPasswordSerializer, ConfirmForgotPasswordSerializer,
-    ChangePasswordSerializer,
+    ChangePasswordSerializer, UpdateInformationSerializer
 )
 from .permissions import IsSuperuser
 from .models import CustomUser
@@ -104,3 +106,31 @@ class ChangePassword(APIView):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class UpdateInformation(RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return CustomUserSerializer
+        return UpdateInformationSerializer
+
+    def get_queryset(self):
+        return CustomUser.objects.filter(email=self.request.user.email)
+
+
+class UserList(ListAPIView):
+    permission_classes = [IsSuperuser]
+    serializer_class = CustomUserSerializer
+    queryset = CustomUser.objects.all()
+
+
+class UserUpdateDestroy(RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsSuperuser]
+    queryset = CustomUser.objects.all()
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return CustomUserSerializer
+        return UpdateInformationSerializer
