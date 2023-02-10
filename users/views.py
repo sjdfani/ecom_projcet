@@ -2,6 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.generics import CreateAPIView
+from django.utils import timezone
 from .serializer import (
     RegisterUserSerializer, RegisterAdminUserSerializer, LoginSerializer, CustomUserSerializer
 )
@@ -33,6 +34,8 @@ class Login(APIView):
             user_data = CustomUserSerializer(user)
 
             if user.check_password(password):
+                user.last_login = timezone.now()
+                user.save()
                 if user.is_superuser:
                     message = {
                         'role': 'manager',
