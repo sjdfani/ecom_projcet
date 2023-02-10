@@ -52,3 +52,22 @@ class Favorite(models.Model):
         Product, on_delete=models.CASCADE, verbose_name=_('Product'), related_name='favorite_product'
     )
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class CouponStatus(models.TextChoices):
+    AVAILABLE = ('available', 'Available')
+    USED = ('used', 'Used')
+    EXPIRE = ('expire', 'Expire')
+
+
+class Coupon(models.Model):
+    created_by = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE, verbose_name=_('created_by user')
+    )
+    discount = models.IntegerField(
+        default=0, verbose_name=_('Discount (percent)'))
+    expiration_time = models.DateTimeField(verbose_name=_('Expiration time'))
+    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(
+        max_length=10, choices=CouponStatus.choices, default=CouponStatus.AVAILABLE, verbose_name=_('status')
+    )
