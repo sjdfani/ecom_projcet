@@ -32,3 +32,11 @@ class CommentList(ListAPIView):
 
     def get_queryset(self):
         return Comments.objects.filter(user=self.request.user)
+
+
+class CommentListByProduct(ListAPIView):
+    serializer_class = CommentSerializer
+
+    def get_queryset(self):
+        id = self.kwargs['id']
+        return Comments.objects.filter(product=id)
