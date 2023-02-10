@@ -13,6 +13,8 @@ class Gender(models.TextChoices):
 
 class CustomUser(AbstractUser):
     username = None
+    first_name = None
+    last_name = None
     email = models.EmailField(_("email address"), unique=True)
     fullname = models.CharField(
         max_length=50, verbose_name=_('Fullname'), null=True, blank=True)
