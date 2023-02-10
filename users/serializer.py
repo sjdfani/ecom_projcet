@@ -41,3 +41,13 @@ class RegisterAdminUserSerializer(serializers.Serializer):
         user.set_password(password)
         user.is_staff = True
         user.save()
+
+
+class LoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField(max_length=20)
+
+    def validate_email(self, value):
+        if not CustomUser.objects.filter(email=value).exists():
+            raise serializers.ValidationError('this email is not exists')
+        return value
