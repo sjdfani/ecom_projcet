@@ -6,7 +6,7 @@ from django.utils import timezone
 from .serializer import (
     RegisterUserSerializer, RegisterAdminUserSerializer, LoginSerializer, CustomUserSerializer,
     ForgotPasswordSerializer, VerifyForgotPasswordSerializer, ConfirmForgotPasswordSerializer,
-
+    ChangePasswordSerializer,
 )
 from .permissions import IsSuperuser
 from .models import CustomUser
@@ -89,6 +89,16 @@ class VerifyForgotPassword(APIView):
 class ConfirmForgotPassword(APIView):
     def post(self, request):
         serializer = ConfirmForgotPasswordSerializer(
+            data=request.data, context={'request': request}
+        )
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class ChangePassword(APIView):
+    def post(self, request):
+        serializer = ChangePasswordSerializer(
             data=request.data, context={'request': request}
         )
         if serializer.is_valid(raise_exception=True):

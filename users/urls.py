@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (
     RegisterUser, RegisterAdminUser, Login, ForgotPassword, VerifyForgotPassword, ConfirmForgotPassword,
-
+    ChangePassword,
 )
 
 app_name = 'users'
@@ -15,4 +15,5 @@ urlpatterns = [
          name='verify-forgot-password'),
     path('confirm-forgot-password/', ConfirmForgotPassword.as_view(),
          name='confirm-forgot-password'),
+    path('change-password/', ChangePassword.as_view(), name='change-password'),
 ]

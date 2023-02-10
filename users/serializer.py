@@ -116,3 +116,29 @@ class ConfirmForgotPasswordSerializer(serializers.Serializer):
 
     def save(self, **kwargs):
         self.process(self.validated_data)
+
+
+class ChangePasswordSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    old_password = serializers.CharField(max_length=20, write_only=True)
+    new_password = serializers.CharField(max_length=20, write_only=True)
+
+    def validate(self, attrs):
+        user = CustomUser.objects.filter(email=attrs['email'])
+        if not user.exists():
+            raise serializers.ValidationError(
+                {'email': 'this email is not exists'})
+        if not user.first().check_password(attrs['old_password']):
+            raise serializers.ValidationError(
+                {'password': 'your old password is incorrect'})
+        return attrs
+
+    def process(self, validated_data):
+        email = validated_data['email']
+        new_password = validated_data['new_password']
+        user = CustomUser.objects.get(email=email)
+        user.set_password(new_password)
+        user.save()
+
+    def save(self, **kwargs):
+        self.process(self.validated_data)
