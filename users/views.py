@@ -3,7 +3,6 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.generics import CreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
-from rest_framework import mixins
 from django.utils import timezone
 from .serializer import (
     RegisterUserSerializer, RegisterAdminUserSerializer, LoginSerializer, CustomUserSerializer,
