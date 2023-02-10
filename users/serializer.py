@@ -10,7 +10,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
 class RegisterUserSerializer(serializers.Serializer):
     email = serializers.EmailField()
-    password = serializers.CharField(max_length=20)
+    password = serializers.CharField(max_length=20, write_only=True)
 
     def validate_email(self, value):
         if CustomUser.objects.filter(email=value).exists():
@@ -27,7 +27,7 @@ class RegisterUserSerializer(serializers.Serializer):
 
 class RegisterAdminUserSerializer(serializers.Serializer):
     email = serializers.EmailField()
-    password = serializers.CharField(max_length=20)
+    password = serializers.CharField(max_length=20, write_only=True)
 
     def validate_email(self, value):
         if CustomUser.objects.filter(email=value).exists():
