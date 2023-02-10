@@ -4,7 +4,9 @@ from rest_framework import status
 from rest_framework.generics import CreateAPIView
 from django.utils import timezone
 from .serializer import (
-    RegisterUserSerializer, RegisterAdminUserSerializer, LoginSerializer, CustomUserSerializer
+    RegisterUserSerializer, RegisterAdminUserSerializer, LoginSerializer, CustomUserSerializer,
+    ForgotPasswordSerializer, VerifyForgotPasswordSerializer, ConfirmForgotPasswordSerializer,
+
 )
 from .permissions import IsSuperuser
 from .models import CustomUser
@@ -60,3 +62,35 @@ class Login(APIView):
             else:
                 message = {'message': 'email or password is incorrect'}
                 return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ForgotPassword(APIView):
+    def post(self, request):
+        serializer = ForgotPasswordSerializer(
+            data=request.data, context={'request': request}
+        )
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class VerifyForgotPassword(APIView):
+    def post(self, request):
+        serializer = VerifyForgotPasswordSerializer(
+            data=request.data, context={'request': request}
+        )
+        if serializer.is_valid(raise_exception=True):
+            state, message = serializer.save()
+            if state:
+                return Response(message, status=status.HTTP_200_OK)
+            return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ConfirmForgotPassword(APIView):
+    def post(self, request):
+        serializer = ConfirmForgotPasswordSerializer(
+            data=request.data, context={'request': request}
+        )
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
