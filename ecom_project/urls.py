@@ -26,4 +26,5 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/v1/users/', include('users.urls'), name='users'),
     path('api/v1/communication/', include('communication.urls')),
+    path('api/v1/products/', include('products.urls')),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django_filters',
     'users.apps.UsersConfig',
     'communication.apps.CommunicationConfig',
+    'products.apps.ProductsConfig',
 ]
 
 MIDDLEWARE = [
