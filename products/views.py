@@ -3,11 +3,12 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Category, Favorite, Warranty, Product
+from .models import Category, Favorite, Warranty, Product, Coupon
 from .permissions import IsSuperuserORAdmin
 from .serializer import (
     CategorySerializer, WarrantySerializer, CreateFavoriteProductSerializer, FavoriteProductSerializer,
-    CreateProductSerializer, ProductSerializer, FavoriteProductDestroySerializer
+    CreateProductSerializer, ProductSerializer, FavoriteProductDestroySerializer, CreateCouponSerializer,
+    CouponSerializer,
 )
 
 
@@ -74,3 +75,17 @@ class UpdateProduct(RetrieveUpdateDestroyAPIView):
     permission_classes = [IsSuperuserORAdmin]
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
+
+
+class CreateCoupon(CreateAPIView):
+    permission_classes = [IsSuperuserORAdmin]
+    serializer_class = CreateCouponSerializer
+    queryset = Coupon.objects.all()
+
+
+class CouponList(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = CouponSerializer
+
+    def get_queryset(self):
+        return Coupon.objects.filter(user=self.request.user)

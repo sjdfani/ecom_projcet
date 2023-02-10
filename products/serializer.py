@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Category, Warranty, Product, Favorite
+from .models import Category, Warranty, Product, Favorite, Coupon
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -79,3 +79,20 @@ class CreateProductSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = self.context['request'].user
         return Product.objects.create(user=user, **validated_data)
+
+
+class CouponSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Coupon
+        fields = '__all__'
+
+
+class CreateCouponSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Coupon
+        fields = '__all__'
+
+    def create(self, validated_data):
+        user = self.context['request'].user
+        obj = Coupon.objects.create(user=user, **validated_data)
+        return obj

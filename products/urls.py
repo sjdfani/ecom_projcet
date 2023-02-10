@@ -2,7 +2,7 @@ from django.urls import path
 from .views import (
     CategoryList, CreateCategory, WarrantyList, CreateWarranty, CreateFavoriteProduct,
     FavoriteProductList, FavoriteProductDestroy, CreateProduct, ProductList, UpdateProduct,
-
+    CreateCoupon, CouponList
 )
 
 app_name = 'products'
@@ -19,4 +19,6 @@ urlpatterns = [
     path('product/create/', CreateProduct.as_view(), name='create-product'),
     path('product/list/', ProductList.as_view(), name='product-list'),
     path('product/list/<int:pk>/', UpdateProduct.as_view(), name='product-update'),
+    path('coupon/create/', CreateCoupon.as_view(), name='create-coupon'),
+    path('coupon/list/', CouponList.as_view(), name='coupon-list'),
 ]
