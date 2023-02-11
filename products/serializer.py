@@ -90,7 +90,7 @@ class CouponSerializer(serializers.ModelSerializer):
 class CreateCouponSerializer(serializers.ModelSerializer):
     class Meta:
         model = Coupon
-        fields = '__all__'
+        exclude = ('user',)
 
     def create(self, validated_data):
         user = self.context['request'].user
