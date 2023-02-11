@@ -34,7 +34,9 @@ class Login(APIView):
             email = serializer.validated_data['email']
             password = serializer.validated_data['password']
             user = CustomUser.objects.get(email=email)
-            user_data = CustomUserSerializer(user)
+            user_data = CustomUserSerializer(
+                user, context={'request': request}
+            )
 
             if user.check_password(password):
                 user.last_login = timezone.now()
