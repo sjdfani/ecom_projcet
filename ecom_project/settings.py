@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'communication.apps.CommunicationConfig',
     'products.apps.ProductsConfig',
+    'shoppingcart.apps.ShoppingcartConfig',
 ]
 
 MIDDLEWARE = [
