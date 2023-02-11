@@ -14,7 +14,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 class CouponAdmin(admin.ModelAdmin):
-    list_display = ('created_by', 'discount', 'status', 'created_at')
+    list_display = ('user', 'discount', 'status', 'created_at')
     list_filter = ('status',)
     search_fields = ('discount',)
 
