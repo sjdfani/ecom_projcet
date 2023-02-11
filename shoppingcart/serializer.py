@@ -35,7 +35,8 @@ class CreateShoppingCartSerializer(serializers.ModelSerializer):
 class UpdateDestroyShoppingCartSerializer(serializers.ModelSerializer):
     class Meta:
         model = ShoppingCart
-        exclude = ('user', 'product')
+        exclude = (
+            'user', 'product', 'bank_name', 'tracking_number', 'paid_date')
 
 
 class PayShoppingCartSerializer(serializers.Serializer):
