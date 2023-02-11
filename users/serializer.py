@@ -2,12 +2,37 @@ from rest_framework import serializers
 from .models import CustomUser
 from .utils import number_generator
 from ecom_project.settings import Redis_object
+from shoppingcart.models import ShoppingCart, ShoppingcartStatus
+from products.models import Coupon, CouponStatus
+from communication.models import Message, Comments
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         exclude = ('password',)
+
+    def to_representation(self, instance):
+        res = super().to_representation(instance)
+        user = CustomUser.objects.get(id=instance.id)
+        res['count_shoppingcart'] = {
+            'total': ShoppingCart.objects.filter(user=user).count(),
+            'in_process': ShoppingCart.objects.filter(user=user, status=ShoppingcartStatus.IN_PROGRESS).count(),
+            'waiting': ShoppingCart.objects.filter(user=user, status=ShoppingcartStatus.WAITING).count(),
+            'done': ShoppingCart.objects.filter(user=user, status=ShoppingcartStatus.DONE).count(),
+        }
+        res['count_of_coupon'] = {
+            'total': Coupon.objects.filter(user=user).count(),
+            'used': Coupon.objects.filter(user=user, status=CouponStatus.USED).count(),
+            'expired': Coupon.objects.filter(user=user, status=CouponStatus.EXPIRE).count(),
+        }
+        res['count_of_comments'] = {
+            'total': Comments.objects.filter(user=user).count(),
+        }
+        res['count_of_messages'] = {
+            'total': Message.objects.filter(to_user=user).count(),
+        }
+        return res
 
 
 class RegisterUserSerializer(serializers.Serializer):
