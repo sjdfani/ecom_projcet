@@ -70,8 +70,8 @@ class CouponStatus(models.TextChoices):
 
 
 class Coupon(models.Model):
-    created_by = models.ForeignKey(
-        CustomUser, on_delete=models.CASCADE, verbose_name=_('created_by user')
+    user = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE, verbose_name=_('User')
     )
     discount = models.IntegerField(
         default=0, verbose_name=_('Discount (percent)'))
