@@ -7,10 +7,16 @@ class Warranty(models.Model):
     name = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self) -> str:
+        return self.name
+
 
 class Category(models.Model):
     name = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return self.name
 
 
 class Product(models.Model):
@@ -43,6 +49,9 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self) -> str:
+        return self.title
+
 
 class Favorite(models.Model):
     user = models.ForeignKey(
@@ -71,3 +80,6 @@ class Coupon(models.Model):
     status = models.CharField(
         max_length=10, choices=CouponStatus.choices, default=CouponStatus.AVAILABLE, verbose_name=_('status')
     )
+
+    def __str__(self) -> str:
+        return self.created_by
